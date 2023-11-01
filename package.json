@@ -1,0 +1,22 @@
+{
+  "name": "thermal-print-invoice",
+  "version": "1.0.0",
+  "description": "Print sale receipts by thermal printer ",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "theral",
+    "printer",
+    "nodejs"
+  ],
+  "author": "Neil",
+  "license": "ISC",
+  "dependencies": {
+    "install": "^0.13.0",
+    "loadash": "^1.0.0",
+    "node-thermal-printer": "^4.4.1",
+    "npm": "^10.2.1"
+  }
+}
