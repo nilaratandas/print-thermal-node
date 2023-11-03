@@ -1,10 +1,11 @@
 {
-  "name": "thermal-print-invoice",
+  "name": "thermal-print-sales-receipts",
   "version": "1.0.0",
-  "description": "Print sale receipts by thermal printer ",
+  "description": "Print sales receipts by thermal Printer ",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "start": "node example.js"
   },
   "keywords": [
     "theral",

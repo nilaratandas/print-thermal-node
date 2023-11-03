@@ -116,7 +116,7 @@ async function example() {
         printer.cut();
         printer.openCashDrawer();
 
-        console.log("------- Print Priview in Console -------", printer.getText());
+        console.log("------- Print Priview in Console -------\n", printer.getText());
 
         try {
             await printer.execute();
@@ -130,6 +130,3 @@ async function example() {
 }
 
 example();
-
-
-console.log(PrinterTypes);
