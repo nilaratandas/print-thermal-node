@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <style>
+        tr,
+        td {
+            padding: 1mm 0mm;
+        }
+    </style>
+</head>
+
+<body>
+    {{#each users}}
+    {{#ifCond this.counter '===' 0}}
+    <div
+        style="width: 60mm; border: 1px solid;font-family: 'Roboto', sans-serif;font-size: 11px;padding:0mm 2mm 0mm 2mm;float: left;">
+        <div style="text-align: center;font-size: 3.5mm;font-weight: bold;padding: 3mm 0mm;">SIGMADUTY FREE SARL</div>
+        <div>
+            <div>IMPO NO# : A1813997K</div>
+            <div>CELL NO : +243 849 023 539</div>
+        </div>
+        <div style="border-bottom: .5mm dashed black;padding-top: 2mm;"></div>
+        <div style="text-align: center;font-size: 3mm;font-weight: bold;padding: 2mm 0mm;">DR CONGO</div>
+        <div style="border-bottom: .5mm dashed black;"></div>
+        <div style="text-align: center;font-size: 3mm;font-weight: bold;padding: 2mm 0mm;">FACTURE / INVOICE</div>
+        <div style="border-bottom: .5mm dashed black;margin-bottom: 2mm;"></div>
+        <table style="width: 60mm;">
+            <tr>
+                <td>DATE :</td>
+                <td>{{this.date}}</td>
+            </tr>
+            <tr>
+                <td>BILL NO :</td>
+                <td>{{this.billNo}}</td>
+            </tr>
+            <tr>
+                <td>CUST. NAME :</td>
+                <td>{{this.passangerName}}</td>
+            </tr>
+            <tr>
+                <td>BOAD. PASS NO :</td>
+                <td>{{this.boardingPass}}</td>
+            </tr>
+            <tr>
+                <td>AIR LINE :</td>
+                <td>{{this.airLine}}</td>
+            </tr>
+            </tr>
+        </table>
+        <div style="border-bottom: .5mm dashed black;margin: 2mm 0mm;"></div>
+        <table style="width: 60mm;">
+            <tr>
+                <th style="text-align: left;">ITEM NAME</th>
+                <th style="text-align: left;">QTY</th>
+                <th style="text-align: left;">RATE$</th>
+                <th style="text-align: left;">AMOUNT$</th>
+            </tr>
+            {{#each this.stock}}
+            <tr>
+                <td style="text-align: left;">{{this.catName}}</td>
+                <td style="text-align: center;">{{this.quantity}}</td>
+                <td style="text-align: center;">{{this.rates}}.00</td>
+                <td style="text-align: center;">{{this.amount}}.00</td>
+            </tr>
+            {{/each}}
+        </table>
+        <div style="border-bottom: .5mm dashed black;margin: 2mm 0mm;"></div>
+        <table style="width: 60mm;">
+            <tr>
+                <td>TOTAL AMOUNT</td>
+                <td style="text-align: right;">${{this.totalAmount}}</td>
+            </tr>
+            <tr>
+                <td>DISCOUNT</td>
+                <td style="text-align: right;">${{this.discount}}</td>
+            </tr>
+            <tr>
+                <td>PAYABLE AMOUNT</td>
+                <td style="text-align: right;">${{this.payableAmount}}</td>
+            </tr>
+            <tr>
+                <td>CASH</td>
+                <td style="text-align: right;">${{this.payableAmount}}</td>
+            </tr>
+            <tr>
+                <td>CARD</td>
+                <td style="text-align: right;">$0.00</td>
+            </tr>
+        </table>
+        <div style="text-align: center;font-size: 2mm;margin: 3mm 3mm;">
+            <div style="margin: 1mm 0mm;">Thank you for shopping at Sigma Duty Free</div>
+            <div>No return or refund or exchange Allowed</div>
+        </div>
+    </div>
+    {{/ifCond}}
+    {{#ifCond this.counter '===' 1}}
+    <div
+        style="width: 60mm; border: 1px solid;font-family: 'Roboto', sans-serif;font-size: 11px;padding:0mm 2mm 0mm 2mm;float: right;">
+        <div style="text-align: center;font-size: 3.5mm;font-weight: bold;padding: 3mm 0mm;">SIGMADUTY FREE SARL</div>
+        <div>
+            <div>IMPO NO# : A1813997K</div>
+            <div>CELL NO : +243 849 023 539</div>
+        </div>
+        <div style="border-bottom: .5mm dashed black;padding-top: 2mm;"></div>
+        <div style="text-align: center;font-size: 3mm;font-weight: bold;padding: 2mm 0mm;">DR CONGO</div>
+        <div style="border-bottom: .5mm dashed black;"></div>
+        <div style="text-align: center;font-size: 3mm;font-weight: bold;padding: 2mm 0mm;">FACTURE / INVOICE</div>
+        <div style="border-bottom: .5mm dashed black;margin-bottom: 2mm;"></div>
+        <table style="width: 60mm;">
+            <tr>
+                <td>DATE :</td>
+                <td>{{this.date}}</td>
+            </tr>
+            <tr>
+                <td>BILL NO :</td>
+                <td>{{this.billNo}}</td>
+            </tr>
+            <tr>
+                <td>CUST. NAME :</td>
+                <td>{{this.passangerName}}</td>
+            </tr>
+            <tr>
+                <td>BOAD. PASS NO :</td>
+                <td>{{this.boardingPass}}</td>
+            </tr>
+            <tr>
+                <td>AIR LINE :</td>
+                <td>{{this.airLine}}</td>
+            </tr>
+            </tr>
+        </table>
+        <div style="border-bottom: .5mm dashed black;margin: 2mm 0mm;"></div>
+        <table style="width: 60mm;">
+            <tr>
+                <th style="text-align: left;">ITEM NAME</th>
+                <th style="text-align: left;">QTY</th>
+                <th style="text-align: left;">RATE$</th>
+                <th style="text-align: left;">AMOUNT$</th>
+            </tr>
+            {{#each this.stock}}
+            <tr>
+                <td style="text-align: left;">{{this.catName}}</td>
+                <td style="text-align: center;">{{this.quantity}}</td>
+                <td style="text-align: center;">{{this.rates}}.00</td>
+                <td style="text-align: center;">{{this.amount}}.00</td>
+            </tr>
+            {{/each}}
+        </table>
+        <div style="border-bottom: .5mm dashed black;margin: 2mm 0mm;"></div>
+        <table style="width: 60mm;">
+            <tr>
+                <td>TOTAL AMOUNT</td>
+                <td style="text-align: right;">${{this.totalAmount}}</td>
+            </tr>
+            <tr>
+                <td>DISCOUNT</td>
+                <td style="text-align: right;">${{this.discount}}</td>
+            </tr>
+            <tr>
+                <td>PAYABLE AMOUNT</td>
+                <td style="text-align: right;">${{this.payableAmount}}</td>
+            </tr>
+            <tr>
+                <td>CASH</td>
+                <td style="text-align: right;">${{this.payableAmount}}</td>
+            </tr>
+            <tr>
+                <td>CARD</td>
+                <td style="text-align: right;">$0.00</td>
+            </tr>
+        </table>
+        <div style="text-align: center;font-size: 2mm;margin: 3mm 3mm;">
+            <div style="margin: 1mm 0mm;">Thank you for shopping at Sigma Duty Free</div>
+            <div>No return or refund or exchange Allowed</div>
+        </div>
+    </div>
+    <br>
+    <div style="page-break-after:always;"></div>
+    {{/ifCond}}
+    {{/each}}
+</body>
+
+</html>

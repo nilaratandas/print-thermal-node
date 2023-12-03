@@ -5,3 +5,7 @@ node_modules/
 package-lock.json
 
 /logs
+
+/output_files/excel_to_json/*
+/output_files/json_to_excel/*
+/output_files/pdf/*
