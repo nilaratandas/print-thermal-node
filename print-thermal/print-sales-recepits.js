@@ -12,64 +12,87 @@ const printer = new ThermalPrinter({
     lineCharacter: '-', // Use custom character for drawing lines - default: -
 });
 
-module.exports.printReceipts = async () => {
+module.exports.printReceipts = async (passengerList) => {
     try {
+        for (passenger of passengerList) {
+            let date = new Date(passenger['date']);
+            if (date != 'Invalid Date') {
+                let dd = date.getDate();
+                dd = (dd.toString().length === 1 ? "0" + dd : dd);
+                let mm = date.getMonth() + 1;
+                mm = (mm.toString().length === 1 ? "0" + mm : mm);
+                let yyyy = date.getFullYear();
+                yyyy = yyyy.toString().substr(2, 4);
+                passenger['date'] = dd + "/" + mm + "/" + yyyy;
+            }
+        }
+
         const isConnected = await printer.isPrinterConnected();
         console.log('Printer connected:', isConnected);
 
-        // Template header
-        printer.alignCenter();
-        printer.println('SIGMADUTY FREE SARL')
-        printer.alignLeft();
-        printer.table(['IMPO NO#', 'A1813997K']);
-        printer.table(['CELL NO', '+243 849 023 539']);
-        printer.newLine();
-        printer.drawLine();
+        for (pList of passengerList) {
+            // Template header
+            printer.alignCenter();
+            printer.println('SIGMADUTY FREE SARL')
+            printer.alignLeft();
+            printer.table(['IMPO NO#', 'A1813997K']);
+            printer.table(['CELL NO', '+243 849 023 539']);
+            printer.newLine();
+            printer.drawLine();
 
-        // Sub Heading in center alinged
-        printer.alignCenter();
-        printer.println('DR CONGO');
-        printer.drawLine();
-        printer.println('FACTURE / INVOICE');
-        printer.drawLine();
-        printer.newLine();
+            // Sub Heading in center alinged
+            printer.alignCenter();
+            printer.println('DR CONGO');
+            printer.drawLine();
+            printer.println('FACTURE / INVOICE');
+            printer.drawLine();
+            printer.newLine();
 
-        // Passanger Details
-        printer.alignLeft();
-        printer.table(['DATE', '10/02/23']);
-        printer.table(['BILL NO', '2332']);
-        printer.table(['CUST. NAME', 'Manish asdfa asdf asdf asdf asd f']);
-        printer.table(['BOAD. PASS NO', '0026']);
-        printer.table(['AIR LINE', 'ASKY']);
-        printer.drawLine();
+            // Passanger Details
+            printer.alignLeft();
+            printer.table(['DATE', pList.date]);
+            printer.table(['BILL NO', pList.billNo]);
+            printer.table(['CUST. NAME', pList.passangerName]);
+            printer.table(['BOAD. PASS NO', pList.boardingPass]);
+            printer.table(['AIR LINE', pList.airLine]);
+            printer.drawLine();
 
-        // Item Name and Quanity Section
-        printer.alignLeft();
-        printer.table(['ITEM NAME', 'QTY', 'RATE$', 'AMOUT$']);
-        printer.table(['ABSOLUT 1L', '2', '30', '60']);
-        printer.table(['BLACK DE LUX 75CL 1L', '2', '30', '60']);
-        printer.table(['NEDERBURG THE MANOR HOUSSE 75CL', '2', '30', '60']);
-        printer.drawLine();
+            // Item Name and Quanity Section
+            printer.alignLeft();
+            printer.table(['ITEM NAME', 'QTY', 'RATE$', 'AMOUT$']);
+            for (stock of pList.stock) {
+                printer.table([stock.catName, stock.quantity, `${stock.rates}.00`, `${stock.amount}.00`]);
+            }
+            // printer.table(['ABSOLUT 1L', '2', '30', '60']);
+            // printer.table(['BLACK DE LUX 75CL 1L', '2', '30', '60']);
+            // printer.table(['NEDERBURG THE MANOR HOUSSE 75CL', '2', '30', '60']);
+            printer.drawLine();
 
 
-        // Amount section 
-        printer.alignLeft();
-        printer.table(['TOTAL AMOUNT', '$180']);
-        printer.table(['DISCOUNT', '$0.00']);
-        printer.table(['PAYABLE AMOUNT', '$180.00']);
-        printer.table(['CASH', '$180.00']);
-        printer.table(['CARD', '$0.00']);
+            // Amount section 
+            printer.alignLeft();
+            printer.table(['TOTAL AMOUNT', pList.totalAmount]);
+            printer.table(['DISCOUNT', pList.discount]);
+            printer.table(['PAYABLE AMOUNT', pList.payableAmount]);
+            printer.table(['CASH', pList.payableAmount]);
+            printer.table(['CARD', '$0.00']);
 
-        // Footer section
-        printer.newLine();
-        printer.newLine();
-        printer.newLine();
-        printer.newLine();
-        printer.alignCenter();
-        printer.setTypeFontB();
-        printer.println('Thank you for shopping at Sigma Duty Free');
-        printer.println('No return or refund or exchange Allowed');
+            // Footer section
+            printer.newLine();
+            printer.newLine();
+            printer.newLine();
+            printer.newLine();
+            printer.alignCenter();
+            printer.setTypeFontB();
+            printer.println('Thank you for shopping at Sigma Duty Free');
+            printer.println('No return or refund or exchange Allowed');
 
+            printer.newLine();
+            printer.newLine();
+            printer.newLine();
+            printer.newLine();
+        }
+        
         printer.cut();
         printer.openCashDrawer();
 

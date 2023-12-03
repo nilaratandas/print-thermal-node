@@ -8,6 +8,7 @@ var html = fs.readFileSync(require.resolve("./template.html"), "utf8");
  * @param {*} printData 
  */
 module.exports.printPDF = (printData) => {
+
     let index = 0;
     for (passenger of printData) {
         passenger['counter'] = index % 2;
