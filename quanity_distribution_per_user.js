@@ -9,6 +9,7 @@ const { INPUT_FILE, OUTPUT_FILE } = require('./constants');
 let MAX_QTY = 3;
 let MIN_QTY = 1; 1
 var updateStock = [];
+var MAX_QTY_PER_USER = 4;
 
 /**
  * Converting passenger list excel to json  
@@ -190,7 +191,8 @@ async function getConvertedJsonData() {
             .then((results) => {
                 resolve({ "status": true, "passenger": results[0], "stock": results[1] });
             }).catch((error) => {
-                reject({ "status": false, 'errorMsg': error });
+                console.log('error', error)
+                reject({ "status": false, 'errorMsg': 'error during convert the passanger and stock list to json data' });
             });
     })
 }
@@ -236,7 +238,9 @@ async function distributeStockPerUser() {
             // Sort the stock list by quanity in descending order
             let descQuanityStockList = _.orderBy(stockList, ['quanity'], ['desc']);
             // Add extra quanity unitil its exhusted
-            let quantityPerUserWithExtra = extraQuantity != 0 || extraQuantity > 0 ? quantityPerUser + 1 : quantityPerUser;
+            // let quantityPerUserWithExtra = extraQuantity != 0 || extraQuantity > 0 ? quantityPerUser + 1 : quantityPerUser;
+
+            let quantityPerUserWithExtra = quantityPerUser > 4 ? MAX_QTY_PER_USER : quantityPerUser;
             // Get list of brand the numbers will be matched with quanityPerUser and it holds highest quanity
             let maxStockPerUser = _.take(descQuanityStockList, quantityPerUserWithExtra);
 
@@ -260,7 +264,6 @@ async function distributeStockPerUser() {
                 }
 
             }
-
         }
         return { passangerList, stockList };
 
@@ -295,13 +298,18 @@ async function distributeStockPerUser() {
  * @returns 
  */
 module.exports.distributeAvailablaQuanityPerUser = async () => {
-    let result = await distributeStockPerUser();
-    let pListForExcel = _.cloneDeep(result.passangerList);
-    for(plist of pListForExcel){
-        delete plist['stock'];
-        delete plist['counter'];
+    try{
+        let result = await distributeStockPerUser();
+        let pListForExcel = _.cloneDeep(result.passangerList);
+        for(plist of pListForExcel){
+            delete plist['stock'];
+            delete plist['counter'];
+        }
+        await fileConversion.convertJsonToExcel(pListForExcel, "passenger-list", OUTPUT_FILE.PASSANGER_LIST_EXCEL);
+        await fileConversion.convertJsonToExcel(result.stockList, "stock-list", OUTPUT_FILE.STOCK_LIST_EXCEL);
+        return result;
+    }catch(error){
+        return error;
     }
-    await fileConversion.convertJsonToExcel(pListForExcel, "passenger-list", OUTPUT_FILE.PASSANGER_LIST_EXCEL);
-    await fileConversion.convertJsonToExcel(result.stockList, "stock-list", OUTPUT_FILE.STOCK_LIST_EXCEL);
-    return result;
+
 }

@@ -1,6 +1,7 @@
 const excelToJson = require('convert-excel-to-json');
 const XLSX = require('xlsx');
 const fs = require('fs');
+const path = require('path');
 
 const logger = require('./logger/logger');
 
@@ -10,8 +11,9 @@ const logger = require('./logger/logger');
  * @returns 
  */
 module.exports.convertExcelToJson = async (file) => {
+    const files = fs.readdirSync(file);
     const convertedJsonData = excelToJson({
-        sourceFile: file,
+        sourceFile: `${file}${files[0]}`,
         header: {
             rows: 1
         }
@@ -26,12 +28,14 @@ module.exports.convertExcelToJson = async (file) => {
  * @param {*} jsonData 
  */
 module.exports.writeJsonToFile = async (file, jsonData) => {
-    return new Promise(function (resolve, reject) {
-        fs.writeFile(require.resolve(file), JSON.stringify(jsonData), function (err) {
-            if (err) reject({ "success": false });
-            else resolve({ "success": true });
+        let timestamp = this.getCurrentTimeStamp();
+        file = `${file}_${timestamp}.json`;
+        return new Promise(function (resolve, reject) {
+            fs.writeFile(file, JSON.stringify(jsonData), function (err) {
+                if (err) reject({ "success": false });
+                else resolve({ "success": true });
+            });
         });
-    });
 }
 
 /**
@@ -43,6 +47,8 @@ module.exports.writeJsonToFile = async (file, jsonData) => {
  */
 module.exports.convertJsonToExcel = async (data, workSheetName, fileName) => {
     try {
+        let timestamp = this.getCurrentTimeStamp();
+        fileName = `${fileName}_${timestamp}.xlsx`;
         const workSheet = XLSX.utils.json_to_sheet(data);
         const workBook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workBook, workSheet, workSheetName);
@@ -55,4 +61,12 @@ module.exports.convertJsonToExcel = async (data, workSheetName, fileName) => {
     } catch (error) {
         return { status: false, message: error }
     }
+}
+
+/**
+ * Get current timestamp
+ */
+module.exports.getCurrentTimeStamp = () => {
+    var currentdate = new Date();
+    return `${currentdate.getDate()}-${(currentdate.getMonth() + 1)}-${currentdate.getFullYear()}_${currentdate.getHours()}_${currentdate.getMinutes()}_${currentdate.getSeconds()}_${currentdate.getMilliseconds()}`;
 }

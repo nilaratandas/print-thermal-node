@@ -25,6 +25,8 @@ module.exports.printPDF = (printData) => {
         index++;
     }
 
+    let timestamp = this.getCurrentTimeStamp();
+
     var options = {
         format: "A4",
         // orientation: "portrait",
@@ -48,7 +50,7 @@ module.exports.printPDF = (printData) => {
         data: {
             users: printData,
         },
-        path: "./output_files/pdf/sales_invoice.pdf",
+        path: `./output_files/pdf/sales_invoice_${timestamp}.pdf`,
         type: "",
     };
 
@@ -59,4 +61,13 @@ module.exports.printPDF = (printData) => {
         .catch((error) => {
             console.error(error);
         });
+}
+
+
+/**
+ * Get current timestamp
+ */
+module.exports.getCurrentTimeStamp = () => {
+    var currentdate = new Date();
+    return `${currentdate.getDate()}-${(currentdate.getMonth() + 1)}-${currentdate.getFullYear()}_${currentdate.getHours()}_${currentdate.getMinutes()}_${currentdate.getSeconds()}_${currentdate.getMilliseconds()}`;
 }
