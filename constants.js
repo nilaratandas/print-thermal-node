@@ -11,6 +11,6 @@ module.exports.INPUT_FILE = Object.freeze({
 module.exports.OUTPUT_FILE = Object.freeze({
     PASSANGER_LIST:"./output_files/excel_to_json/passenger",
     STOCK_LIST: "./output_files/excel_to_json/stock",
-    PASSANGER_LIST_EXCEL: "./output_files/json_to_excel/passenger",
-    STOCK_LIST_EXCEL:"./output_files/json_to_excel/stock"
+    PASSANGER_LIST_EXCEL: "./output_files/remaining-stock/passenger",
+    STOCK_LIST_EXCEL:"./output_files/remaining-stock/stock"
 });

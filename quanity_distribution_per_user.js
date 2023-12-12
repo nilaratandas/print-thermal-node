@@ -234,13 +234,16 @@ async function distributeStockPerUser() {
         logger.info(`total user : ${totalUser}, total quanity : ${totalQuanity}, quanity per user : ${quantityPerUser} , total quanity for users : ${(totalUser * quantityPerUser)}  extra quanity : ${extraQuantity}`);
         console.log(`total user : ${totalUser}, total quanity : ${totalQuanity}, quanity per user : ${quantityPerUser} , total quanity for users : ${(totalUser * quantityPerUser)}  extra quanity : ${extraQuantity}`);
         let discount = [0, 5, 10];
+        if(quantityPerUser > MAX_QTY_PER_USER){
+            quantityPerUser = MAX_QTY_PER_USER;
+            extraQuantity = 0;
+        }
         for (userInfo of passangerList) {
             // Sort the stock list by quanity in descending order
             let descQuanityStockList = _.orderBy(stockList, ['quanity'], ['desc']);
             // Add extra quanity unitil its exhusted
-            // let quantityPerUserWithExtra = extraQuantity != 0 || extraQuantity > 0 ? quantityPerUser + 1 : quantityPerUser;
+            let quantityPerUserWithExtra = extraQuantity != 0 || extraQuantity > 0 ? quantityPerUser + 1 : quantityPerUser;
 
-            let quantityPerUserWithExtra = quantityPerUser > 4 ? MAX_QTY_PER_USER : quantityPerUser;
             // Get list of brand the numbers will be matched with quanityPerUser and it holds highest quanity
             let maxStockPerUser = _.take(descQuanityStockList, quantityPerUserWithExtra);
 
